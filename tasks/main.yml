@@ -1,0 +1,25 @@
+--- # salandur.apache2-vhost role: tasks
+
+- name: check if vhost_domainname is set
+  fail:
+    msg: The 'vhost_domainname' variable is not set
+  when: vhost_domainname is not defined
+
+- name: create virtual hosts config directory
+  file: dest=/etc/httpd/vhost.d state=directory mode=0755
+
+- name: enable virtual hosts for HTTPD
+  template: src=vhosts.conf.j2 dest=/etc/httpd/conf.d/vhosts.conf
+  notify: restart HTTPD
+
+- name: check directory for virtual host
+  stat: path=/var/www/{{ vhost_domainname }}/public_html
+  register: public_html
+
+- name: create directory for virtual host
+  file: dest=/var/www/{{ vhost_domainname }}/public_html state=directory mode=0755
+  when: not public_html.stat.exists
+
+- name: Add new Virtual Host
+  template: src=virtualhost.conf.j2 dest=/etc/httpd/vhost.d/{{ vhost_domainname }}.conf
+  notify: restart HTTPD

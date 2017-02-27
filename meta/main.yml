@@ -1,0 +1,16 @@
+--- # salandur.apache2-vhost meta
+
+galaxy_info:
+  author: Jeroen Ruijgers
+  company: Salandur
+  description: Manages Apache2/httpd vhost configurations
+  license: MIT
+  platforms:
+  - name: EL
+    versions:
+    - 6
+  categories:
+  - apache
+
+dependencies:
+- salandur.apache2
