@@ -20,22 +20,16 @@
   notify: restart HTTPD
   become: yes
 
-- name: create root directory for virtual host
+- name: create directories for virtual host
   file:
-    dest: "{{ www_root_dir }}"
+    dest: "{{ item }}"
     state: directory
     mode: 0775
     owner: "{{ www_owner }}"
     group: "{{ www_group }}"
-  become: yes
-
-- name: create html directory for virtual host
-  file:
-    dest: "{{ www_html }}"
-    state: directory
-    mode: 0775
-    owner: "{{ www_owner }}"
-    group: "{{ www_group }}"
+  with_items:
+    - "{{ www_root_dir }}"
+    - "{{ www_html }}"
   become: yes
 
 - name: Add new Virtual Host
