@@ -3,6 +3,6 @@
 <VirtualHost *:80>
   DocumentRoot {{ www_html }}
   ServerName {{ vhost_domainname }}
-  ErrorLog www_root_dir/error.log
-  CustomLog www_root_dir/access.log combined
+  ErrorLog {{ www_root_dir }}/error.log
+  CustomLog {{ www_root_dir }}/access.log combined
 </VirtualHost>
