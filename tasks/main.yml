@@ -7,20 +7,35 @@
   become: yes
 
 - name: create virtual hosts config directory
-  file: dest=/etc/httpd/vhost.d state=directory mode=0755
+  file:
+    dest: /etc/httpd/vhost.d
+    state: directory
+    mode: 0755
   become: yes
 
 - name: enable virtual hosts for HTTPD
-  template: src=vhosts.conf.j2 dest=/etc/httpd/conf.d/vhosts.conf
+  template:
+    src: vhosts.conf.j2
+    dest: /etc/httpd/conf.d/vhosts.conf
   notify: restart HTTPD
   become: yes
 
 - name: create root directory for virtual host
-  file: dest={{ www_root_dir }} state=directory mode=0775 owner={{ www_owner }} group={{ www_group }}
+  file:
+    dest: "{{ www_root_dir }}"
+    state: directory
+    mode: 0775
+    owner: "{{ www_owner }}"
+    group: "{{ www_group }}"
   become: yes
 
 - name: create html directory for virtual host
-  file: dest={{ www_html }} state=directory mode=0775 owner={{ www_owner }} group={{ www_group }}
+  file:
+    dest: "{{ www_html }}"
+    state: directory
+    mode: 0775
+    owner: "{{ www_owner }}"
+    group: "{{ www_group }}"
   become: yes
 
 - name: Add new Virtual Host
