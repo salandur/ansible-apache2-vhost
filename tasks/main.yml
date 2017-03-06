@@ -4,22 +4,28 @@
   fail:
     msg: The 'vhost_domainname' variable is not set
   when: vhost_domainname is not defined
+  become: yes
 
 - name: create virtual hosts config directory
   file: dest=/etc/httpd/vhost.d state=directory mode=0755
+  become: yes
 
 - name: enable virtual hosts for HTTPD
   template: src=vhosts.conf.j2 dest=/etc/httpd/conf.d/vhosts.conf
   notify: restart HTTPD
+  become: yes
 
 - name: check directory for virtual host
-  stat: path=/var/www/{{ vhost_domainname }}/public_html
+  stat: path={{ www_html }}
   register: public_html
+  become: yes
 
 - name: create directory for virtual host
-  file: dest=/var/www/{{ vhost_domainname }}/public_html state=directory mode=0755
+  file: dest={{ www_html }} state=directory mode=0775 owner={{ www_owner }} group={{ www_group }}
   when: not public_html.stat.exists
+  become: yes
 
 - name: Add new Virtual Host
   template: src=virtualhost.conf.j2 dest=/etc/httpd/vhost.d/{{ vhost_domainname }}.conf
   notify: restart HTTPD
+  become: yes

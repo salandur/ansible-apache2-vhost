@@ -1,8 +1,8 @@
 # {{ ansible_managed }}
 
 <VirtualHost *:80>
-  DocumentRoot /var/www/{{ vhost_domainname }}/public_html
+  DocumentRoot {{ www_html }}
   ServerName {{ vhost_domainname }}
-  ErrorLog /var/www/{{ vhost_domainname }}/error.log
-  CustomLog /var/www/{{ vhost_domainname }}/access.log combined
+  ErrorLog www_root_dir/error.log
+  CustomLog www_root_dir/access.log combined
 </VirtualHost>

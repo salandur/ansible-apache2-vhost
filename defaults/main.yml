@@ -1,0 +1,4 @@
+www_root_dir: "/var/www/{{ vhost_domainname }}"
+www_html: "{{ www_root_dir }}/public_html"
+www_owner: apache
+www_group: apache
