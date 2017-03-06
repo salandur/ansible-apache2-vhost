@@ -15,14 +15,12 @@
   notify: restart HTTPD
   become: yes
 
-- name: check directory for virtual host
-  stat: path={{ www_html }}
-  register: public_html
+- name: create root directory for virtual host
+  file: dest={{ www_root_dir }} state=directory mode=0775 owner={{ www_owner }} group={{ www_group }}
   become: yes
 
-- name: create directory for virtual host
+- name: create html directory for virtual host
   file: dest={{ www_html }} state=directory mode=0775 owner={{ www_owner }} group={{ www_group }}
-  when: not public_html.stat.exists
   become: yes
 
 - name: Add new Virtual Host
